@@ -24,7 +24,7 @@ public class Main{
             }
 
             for (int j = 2; j <= 5; j++){
-                dp[i] = Math.max(dp[i], dp[i-(j+1)] *j);
+                dp[i] = Math.max(dp[i], dp[i-j] *(j-1));
             }
 
 
