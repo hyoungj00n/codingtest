@@ -1,82 +1,73 @@
-import java.util.Arrays;
-import java.util.Comparator;
-
+import java.util.*;
 class Solution {
-
     static class File{
-        String file_name;
         String head;
-        int number;
-
-        public File(String file_name, String head, int number) {
-            this.file_name = file_name;
+        int num;
+        String name;
+        
+        File(String head, int num, String name){
             this.head = head;
-            this.number = number;
+            this.num = num;
+            this.name= name;
         }
     }
-    
-    public static String[] solution(String[] files) {
+    public String[] solution(String[] files) {
         
-
-        File[] file_info = new File[files.length];
-
-        for (int i = 0; i < files.length; i++) {
-            String[] split = splitFileName(files[i]);
-            file_info[i] = new File(files[i], split[0], Integer.parseInt(split[1]));
+        File[] fileInfo = new File[files.length];
+        for(int i = 0; i < files.length; i++){
+            String[] splitFilesResult = splitFiles(files[i]);
+            fileInfo[i] = new File(splitFilesResult[0], Integer.parseInt(splitFilesResult[1]), files[i]);
         }
-
-        Arrays.sort(file_info, new Comparator<File>() {
+        
+        Arrays.sort(fileInfo, new Comparator<File>() {
             @Override
-            public int compare(File o1, File o2) {
-                if ((o1.head).equals(o2.head)) { 	
-                    return o1.number-o2.number; 	
+            public int compare(File o1, File o2){
+                if(o1.head.equals(o2.head)){
+                    return o1.num - o2.num;
                 }else{
-                    return (o1.head).compareTo(o2.head); 
+                    return o1.head.compareTo(o2.head);    
                 }
+                 
             }
         });
-
         String[] answer = new String[files.length];
         for (int i = 0; i < files.length; i++) {
-            answer[i] = file_info[i].file_name;
+            answer[i] = fileInfo[i].name;
         }
-        
         return answer;
     }
-
     
-    public static String[] splitFileName(String file){ 
-        String str[] = new String[3];
-        str[0] = ""; // HEAD
-        str[1] = ""; // NUMBER
-        str[2] = ""; // TAIL
-
+    
+    public static String[] splitFiles(String file){
+        String[] result = new String[3];
+        result[0] = "";
+        result[1] = "";
+        result[2] = "";
         int idx = 0;
-        for (int i = 0; i < file.length(); i++) {
+        for(int i = 0; i < file.length(); i++){
             char c = file.charAt(i);
-
-            if(idx==0 && !Character.isDigit(c)){
-                str[idx] += c;
+            
+            if(idx == 0 && !Character.isDigit(c)){
+                result[idx] += c;
                 continue;
             }
-
-            if(idx==0 && Character.isDigit(c)){
-                idx ++;
+            
+            if(idx == 0 && Character.isDigit(c)){
+                idx++;
             }
-
-            if(idx==1 && Character.isDigit(c)){
-                str[idx] += c;
+            
+            if(idx == 1 && Character.isDigit(c)){
+                result[idx] += c;
                 continue;
             }
-
-            if(idx==1 && !Character.isDigit(c)){
-                idx ++;
+            
+            if(idx == 1 && !Character.isDigit(c)){
+                idx++;
             }
-            str[idx] += c;
+            
+            result[idx] += c;
         }
-
-        str[0] = str[0].toLowerCase(); 
-        
-        return str;
+        result[0] = result[0].toLowerCase();
+        return result;
     }
 }
